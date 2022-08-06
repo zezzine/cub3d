@@ -6,7 +6,7 @@
 /*   By: zezzine <zezzine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 10:36:39 by tel-bouh          #+#    #+#             */
-/*   Updated: 2022/08/04 11:17:57 by zezzine          ###   ########.fr       */
+/*   Updated: 2022/08/06 09:55:33 by zezzine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,46 +23,47 @@
 # include <sys/types.h>
 # include "./get_next_line/get_next_line.h"
 
+typedef struct s_txt
+{
+	char	*txt;
+	char	*addr;
+	int		line_len;
+	int		bpp;
+	void	*img;
+	int		endien;
+}	t_txt;
 
 typedef struct s_cub3d
 {
 	void	*mlx;
 	void	*win;
-	char	*txt_n;
-	char	*txt_s;
-	char	*txt_w;
-	char	*txt_e;
-	char	*add_n;
-	char	*add_s;
-	char	*add_w;
-	char	*add_e;
-    int		endien;
-    int		line_len;
-    int		bpp;
-	void	*img; // image of cube
-	void	*map_img; // image of map
-	char	*addr;
+	t_txt	n_txtr;	
+	t_txt	s_txtr;	
+	t_txt	e_txtr;	
+	t_txt	w_txtr;
+	t_txt	img;
+	void	*map_img;
 	char	*map_addr;
-	int		map_w; //with of mini map
-	int		map_h; // heigth of mini map
-    int 	m_endien;
-    int 	m_line_len;
-    int 	m_bpp;
+    int		m_endien;
+    int		m_line_len;
+    int		m_bpp;
 	char	**map;
-	int		f; // color of sky
-	int		c; // color og floor
-	double	p_pos[2]; //position of player 0 = x 1 = y 
-	int		xyz[3]; // 0 x in map 1 = y in map 2 = player character (W E N S)
-	double	vir_pos[2]; // virtual position of player when he try to move
-	int		p_ort; //angle of view
-	int		p_i; // position of player in map 
-	int		p_j; // position of player in map
-	double	cell_w_h[2]; // cell length in pixel
-	double	ray_pos[2000][2]; //x and y of ray when hit the wall
+	int		map_w;
+	int		map_h;
+	int		f;
+	int		c;
+	double	p_pos[2];
+	int		xyz[3];
+	double	vir_pos[2];
+	int		p_ort;
+	int		p_i;
+	int		p_j;
+	double	cell_w_h[2];
+	double	ray_pos[2000][2];
 	int		ray_height[2000][6];
-	double	angle; //variable takes ognle of rays 
-	int		mouse; // position of mouse
-	int		number_of_rays; 
+	double	angle;
+	int		mouse;
+	int		number_of_rays;
 	int		cmr;
 	void	*spt1;
 	void	*spt2;
@@ -73,18 +74,18 @@ typedef struct s_cub3d
 
 typedef struct s_img
 {
-    void *mlx_ptr;
-    void *mlx_win;
-    void *mlx_img;
-	void *mlx_map;
-    char *addr;
-	char *addr_map;
-	int  map_w;
-	int	 map_h;
+    void	*mlx_ptr;
+    void	*mlx_win;
+    void	*mlx_img;
+	void	*mlx_map;
+    char	*addr;
+	char	*addr_map;
+	int		map_w;
+	int		map_h;
 	t_cub3d	*cub;
 }			t_img;
 
-t_img img;
+t_img	img;
 
 # define HEIGHT	900
 # define WIDTH	1700
@@ -149,9 +150,9 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 // INIT
 // ft_initialize_struct_util.c
 int		ft_get_numbers(char *elem);
-void	*ft_get_texture(t_cub3d *cub, void *texture, char *elem);
-int		ft_check_texture(t_cub3d *cub);
-int		ft_fill_cub_texture(t_cub3d *cub, char **elems);
+void	*ft_get_texture(t_cub3d **cub, void *texture, char *elem);
+int		ft_check_texture(t_cub3d **cub);
+int		ft_fill_cub_texture(t_cub3d **cub, char **elems);
 int		ft_fill_cub_elems(t_cub3d **cub, char *av);
 
 // ft_initialize_struct.c
@@ -220,8 +221,8 @@ int		ft_there_is_a_wall_sides(t_cub3d **cub, double adj, double opp, int sides_a
 
 // ft_there_is_a_wall_in_my_way.c
 int		ft_check_cell_content(t_cub3d **cub);
-void    ft_for_vir_pos(t_cub3d **cub, double adj, double opp, int sides_angle);
-void    ft_back_vir_pos(t_cub3d **cub, double adj, double opp, int sides_angle);
+void	ft_for_vir_pos(t_cub3d **cub, double adj, double opp, int sides_angle);
+void	ft_back_vir_pos(t_cub3d **cub, double adj, double opp, int sides_angle);
 int		ft_there_is_a_wall_in_my_way(t_cub3d **cub, int sides_angle, char c);
 
 // ft_corner.c
@@ -240,17 +241,14 @@ void	ft_micro_map_display(t_cub3d **cub);
 
 // ft_event_handler.c
 void	ft_display_map(char **map);
-int		ft_handle_mouse(int x,int y, void **cub);
+int		ft_handle_mouse(int x, int y, void **cub);
 int		ft_handle_keys(int key, t_cub3d **cub);
 
 // ft_display.c
-void	ft_camera(t_cub3d **cub);
 void	ft_screan_display(t_cub3d *cub);
-//void	ft_screan_display_1(t_cub3d *cub);
-
-int		ft_sprite(int key, t_cub3d **cub);
-int		ft_sprite_but(t_cub3d **cub);
-int		ft_sprite_t(int key, t_cub3d **cub);
+int		get_color(t_cub3d *cub, int x, int y, int index);
+void	ft_help_display(int i, int j, t_cub3d *cub, int mid);
+void	img_pix_put(t_cub3d *cub, int x, int y, int color);
 
 // RAY CASTING
 // ft_triangle_calculation.c

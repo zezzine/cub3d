@@ -6,7 +6,7 @@
 /*   By: zezzine <zezzine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:58:09 by tel-bouh          #+#    #+#             */
-/*   Updated: 2022/08/02 17:42:16 by zezzine          ###   ########.fr       */
+/*   Updated: 2022/08/06 09:23:07 by zezzine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,26 @@ void	ft_new_position_forward_sides(t_cub3d **cub, double adj, double opp, int si
 	}
 }
 
-// void	ft_new_position_backward_sides(t_cub3d **cub, double adj, double opp, int sides_angle)
-// {
-// 	if (sides_angle > 0 && cub[0]->p_ort < 100)
-// 	{
-// 		cub[0]->p_pos[1] += adj;
-// 		cub[0]->p_pos[0] -= opp;
-// 	}
-// 	if (sides_angle > 100 && cub[0]->p_ort < 200)
-// 	{
-// 		cub[0]->p_pos[1] -= opp;
-// 		cub[0]->p_pos[0] -= adj;
-// 	}
-// 	if (sides_angle > 200 && cub[0]->p_ort < 300)
-// 	{
-// 		cub[0]->p_pos[1] -= adj;
-// 		cub[0]->p_pos[0] += opp;
-// 	}
-// 	if (sides_angle > 300 && cub[0]->p_ort < 400)
-// 	{
-// 		cub[0]->p_pos[1] += opp;
-// 		cub[0]->p_pos[0] += adj;
-// 	}
-// }
+void	ft_new_position_backward_sides(t_cub3d **cub, double adj, double opp, int sides_angle)
+{
+	if (sides_angle > 0 && cub[0]->p_ort < 100)
+	{
+		cub[0]->p_pos[1] += adj;
+		cub[0]->p_pos[0] -= opp;
+	}
+	if (sides_angle > 100 && cub[0]->p_ort < 200)
+	{
+		cub[0]->p_pos[1] -= opp;
+		cub[0]->p_pos[0] -= adj;
+	}
+	if (sides_angle > 200 && cub[0]->p_ort < 300)
+	{
+		cub[0]->p_pos[1] -= adj;
+		cub[0]->p_pos[0] += opp;
+	}
+	if (sides_angle > 300 && cub[0]->p_ort < 400)
+	{
+		cub[0]->p_pos[1] += opp;
+		cub[0]->p_pos[0] += adj;
+	}
+}

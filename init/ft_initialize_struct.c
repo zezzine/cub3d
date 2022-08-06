@@ -6,7 +6,7 @@
 /*   By: zezzine <zezzine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:34:42 by tel-bouh          #+#    #+#             */
-/*   Updated: 2022/08/02 16:21:46 by zezzine          ###   ########.fr       */
+/*   Updated: 2022/08/06 09:20:45 by zezzine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_position_in_pixel(t_cub3d **cub, int xyz[3], int x, int max_y)
 {
-	cub[0]->p_pos[0] = (50) * xyz[1] + ((50) / 2); 
+	cub[0]->p_pos[0] = (50) * xyz[1] + ((50) / 2);
 	cub[0]->p_pos[1] = (50) * xyz[0] + ((50) / 2);
 	if (xyz[2] == 'N')
 		cub[0]->p_ort = 0;
@@ -35,8 +35,8 @@ void	ft_position_in_pixel(t_cub3d **cub, int xyz[3], int x, int max_y)
 
 void	ft_get_p_position(t_cub3d **cub)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 	int	max_y;
 	int	xyz[3];
 
@@ -48,7 +48,7 @@ void	ft_get_p_position(t_cub3d **cub)
 		while (cub[0]->map[x][y++])
 		{
 			if (cub[0]->map[x][y] == 'N' || cub[0]->map[x][y] == 'S'
-					|| cub[0]->map[x][y] == 'A' || cub[0]->map[x][y] == 'E')
+					|| cub[0]->map[x][y] == 'W' || cub[0]->map[x][y] == 'E')
 			{
 				xyz[0] = x;
 				xyz[1] = y;

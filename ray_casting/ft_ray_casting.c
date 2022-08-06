@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ray_casting_hyp.c                               :+:      :+:    :+:   */
+/*   ft_ray_casting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tel-bouh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zezzine <zezzine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 09:46:03 by tel-bouh          #+#    #+#             */
-/*   Updated: 2022/06/18 11:50:07 by tel-bouh         ###   ########.fr       */
+/*   Updated: 2022/08/06 09:57:18 by zezzine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_ray_casting(t_cub3d **cub)
 		cub[0]->angle += 400;
 	cub[0]->number_of_rays = 0;
 	i = 0;
-	while (i < 1700)
+	while (i < WIDTH)
 	{
 		cub[0]->ray_height[i][0] = 0;
 		cub[0]->angle = cub[0]->angle + 0.03529;
