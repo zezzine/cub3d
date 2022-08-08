@@ -6,7 +6,7 @@
 /*   By: zezzine <zezzine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 10:36:39 by tel-bouh          #+#    #+#             */
-/*   Updated: 2022/08/08 16:38:23 by zezzine          ###   ########.fr       */
+/*   Updated: 2022/08/08 16:42:56 by zezzine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_img
 	t_cub3d	*cub;
 }			t_img;
 
-//t_img	img;
+t_img	img;
 
 # define HEIGHT	900
 # define WIDTH	1700
