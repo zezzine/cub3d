@@ -32,7 +32,7 @@ int	ft_check_line(char *line, char *elem, int len)
 	char	**tab;
 	int		i;
 
-	tab = ft_split(line, ' ');
+	tab = ft_split_case(line, ' ');
 	if (ft_strcmp(tab[0], elem) == 0)
 	{
 		i = ft_strlen(tab[1]);
@@ -106,6 +106,8 @@ int	ft_check_elems(char	**elem_tab)
 	i = 0;
 	while (elem_tab[i] && i < 6)
 	{
+		if (ft_is_two_elems(elem_tab[i]) == 1)
+			return (1);
 		ft_check_elem_identifers(&elem, elem_tab, i);
 		i++;
 	}

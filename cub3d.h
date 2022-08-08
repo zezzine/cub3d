@@ -6,7 +6,7 @@
 /*   By: zezzine <zezzine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 10:36:39 by tel-bouh          #+#    #+#             */
-/*   Updated: 2022/08/06 09:55:33 by zezzine          ###   ########.fr       */
+/*   Updated: 2022/08/08 16:38:23 by zezzine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ typedef struct s_cub3d
 	t_txt	img;
 	void	*map_img;
 	char	*map_addr;
-    int		m_endien;
-    int		m_line_len;
-    int		m_bpp;
+	int		m_endien;
+	int		m_line_len;
+	int		m_bpp;
 	char	**map;
 	int		map_w;
 	int		map_h;
@@ -65,31 +65,33 @@ typedef struct s_cub3d
 	int		mouse;
 	int		number_of_rays;
 	int		cmr;
-	void	*spt1;
-	void	*spt2;
-	void	*spt3;
-	int		shot;
+	int		x;
+	int		y;
+	int		vertical;
+	int		turn;
+	int		adj;
+	int		opp;
 	int		text_x[2001];
 }	t_cub3d;
 
 typedef struct s_img
 {
-    void	*mlx_ptr;
-    void	*mlx_win;
-    void	*mlx_img;
+	void	*mlx_ptr;
+	void	*mlx_win;
+	void	*mlx_img;
 	void	*mlx_map;
-    char	*addr;
+	char	*addr;
 	char	*addr_map;
 	int		map_w;
 	int		map_h;
 	t_cub3d	*cub;
 }			t_img;
 
-t_img	img;
+//t_img	img;
 
 # define HEIGHT	900
 # define WIDTH	1700
-# define STEP	10
+# define STEP	25
 
 //PARSE MAP
 // ft_check_map_again_util.c
@@ -117,6 +119,7 @@ int		ft_check_first_and_last_line(char *line);
 int		ft_check_map(char **elem_tab, int len);
 
 // ft_check_elems_util.c
+int		ft_is_two_elems(char *elem);
 void	ft_copy_str(char *line, char **name, int len);
 int		ft_is_one_or_three_digit(char *nbr);
 int		ft_is_color(char *line);
@@ -144,6 +147,8 @@ char	*ft_strdup_case(const char *src);
 char	**ft_free_tab(char **str, char *arg1, char *arg2);
 char	**ft_split(char const *str, char c);
 int		ft_atoi(const char *ndr);
+int		ft_odd_quote(const char *s, int index);
+char	**ft_split_case(char const *s, char c);
 //init dir
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
@@ -210,14 +215,14 @@ void	ft_simple_pos_calc_sides_left(t_cub3d **cub, char c, int sides_angle);
 void	ft_simple_pos_calc_sides(t_cub3d **cub, char c, int sides_angle);
 
 // ft_new_position_calc_sides.c
-void	ft_new_position_forward_sides(t_cub3d **cub, double adj, double opp, int sides_angle);
-void	ft_new_position_backward_sides(t_cub3d **cub, double adj, double opp, int sides_angle);
+void	ft_n_pos_f_side(t_cub3d **cub, double adj, double opp, int sides_angle);
+void	ft_n_pos_b_side(t_cub3d **cub, double adj, double opp, int sides_angle);
 
 // ft_there_is_a_wall_sides.c
-void	ft_vir_pos_sides(t_cub3d **cub, double adj, double opp, int sides_angle);
-void	ft_virtual_position_sides(t_cub3d **cub, double adj, double opp, int sides_angle);
+void	ft_vir_pos_sides(t_cub3d **cub, double adj, double opp, int s);
+void	ft_virtual_position_sides(t_cub3d **cub, double adj, double opp, int s);
 void	ft_move_player_pos_sides(t_cub3d **cub, int i, int j);
-int		ft_there_is_a_wall_sides(t_cub3d **cub, double adj, double opp, int sides_angle);
+int		ft_there_is_a_wall_sides(t_cub3d **cub, double adj, double opp, int s);
 
 // ft_there_is_a_wall_in_my_way.c
 int		ft_check_cell_content(t_cub3d **cub);
@@ -237,7 +242,11 @@ int		ft_corner(t_cub3d **cub, int angle, int i, int j);
 void	my_img_pix_put(t_cub3d **cub, int x, int y, int color);
 int		ft_wall_space_player(t_cub3d **cub, int i, int j);
 void	ft_mini_map_display(t_cub3d **cub);
+void	ft_display_mini_map_util(t_cub3d **cub, int index_i, int index_j);
+
+// ft_micro_map.c
 void	ft_micro_map_display(t_cub3d **cub);
+void	ft_help_micro_map(t_cub3d **cub, int i, int index_i, int index_j);
 
 // ft_event_handler.c
 void	ft_display_map(char **map);
@@ -245,7 +254,7 @@ int		ft_handle_mouse(int x, int y, void **cub);
 int		ft_handle_keys(int key, t_cub3d **cub);
 
 // ft_display.c
-void	ft_screan_display(t_cub3d *cub);
+void	ft_screan_display(t_cub3d *cub, int i, int j);
 int		get_color(t_cub3d *cub, int x, int y, int index);
 void	ft_help_display(int i, int j, t_cub3d *cub, int mid);
 void	img_pix_put(t_cub3d *cub, int x, int y, int color);
@@ -259,16 +268,16 @@ void	ft_real_distance(t_cub3d **cub, int turn, double hyp);
 
 // ft_get_color.c
 int		ft_chose_color_number(double closest[]);
-int		ft_chose_color(t_cub3d **cub, int turn, int x, int y);
-int		ft_previews_cell(t_cub3d **cub, int hyp, int i, int j, int turn);
+int		ft_chose_color(t_cub3d **cub, int turn);
+int		ft_previews_cell(t_cub3d **cub, int hyp, int i, int j);
 void	ft_adjust_clr(t_cub3d **cub, int turn, int i, int j);
 int		ft_clc_hyp(t_cub3d **cub, double opp, double adj, int flag);
 
 // ft_ray_casting.c
-int		ft_is_ray_hit_the_wall(t_cub3d **cub, int hyp, int turn);
+int		ft_is_ray_hit_the_wall(t_cub3d **cub, int hyp);
 void	ft_virtual_pos_of_ray_two(t_cub3d **cub, int turn, double adj);
 void	ft_virtual_pos_of_ray(t_cub3d **cub, int turn, double adj, double opp);
-void	ft_get_length_of_ray(t_cub3d **cub, int turn);
+void	ft_get_length_of_ray(t_cub3d **cub);
 void	ft_ray_casting(t_cub3d **cub);
 
 // cub3d.c

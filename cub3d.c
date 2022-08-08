@@ -50,7 +50,6 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	cub[0]->mouse = 0;
-	cub[0]->shot = 0;
 	ft_cub3d(cub[0]);
 	return (0);
 }
