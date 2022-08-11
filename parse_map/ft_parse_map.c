@@ -6,7 +6,7 @@
 /*   By: zezzine <zezzine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 11:03:15 by tel-bouh          #+#    #+#             */
-/*   Updated: 2022/08/06 09:34:55 by zezzine          ###   ########.fr       */
+/*   Updated: 2022/08/11 19:05:01 by zezzine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,34 @@ char	**ft_fill_elem(char *av, char ***elem)
 		if (ft_strlen(line) > 1)
 			elem[0][i++] = ft_strdup(line);
 		else if (i > 6 && ft_strlen(line) == 1)
+		{
+			elem[0][i] = NULL;
+			ft_free_tab(elem[0], line, NULL);
+			close(fd);
+			ft_error(7);
+			return (NULL);
+		}
+		free(line);
+		line = get_next_line(fd);
+	}
+	elem[0][i] = NULL;
+	return (elem[0]);
+}
+
+char	**ft_fill_elem_parse(char *av, char ***elem)
+{
+	char	*line;
+	int		fd;
+	int		i;
+
+	fd = open(av, O_RDONLY);
+	i = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (ft_strlen(line) > 1)
+			elem[0][i++] = ft_strdup(line);
+		else if (i > 6)// && ft_strlen(line) == 1)
 		{
 			elem[0][i] = NULL;
 			ft_free_tab(elem[0], line, NULL);
@@ -83,14 +111,18 @@ int	ft_parse_map_file_lines(char *av, int v_elem)
 		return (ft_error(3));
 	elem_tab = (char **) malloc(sizeof(char *) * len + 1);
 	elem_tab[len] = NULL;
-	if (ft_fill_elem(av, &elem_tab) == NULL)
+	if (ft_fill_elem_parse(av, &elem_tab) == NULL)
 		return (0);
+	int i ;
+	i = 0;
 	v_elem = ft_check_elems(elem_tab);
+	printf(" ellelel %d\n", v_elem);
 	if (v_elem != 6 || len < 9)
 	{
 		elem_tab = ft_free_tab(elem_tab, NULL, NULL);
 		return (ft_error(4) - 1);
 	}
+	i = 0;
 	v_elem += ft_check_map(&elem_tab[6], len - 6);
 	if (v_elem != 6)
 	{

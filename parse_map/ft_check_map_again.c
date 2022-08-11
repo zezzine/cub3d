@@ -12,30 +12,48 @@
 
 #include "../cub3d.h"
 
-int	ft_check_above(char **tab, int i, int j)
+int	ft_check_above1(char **tab, int i, int j)
 {
 	int	len;
 
+	len = ft_strlen(tab[i - 1]);
+	if (len >= j && tab[i - 1][j] != '1' && tab[i - 1][j] != ' ')
+		return (1);
+	if (j != 0 &&  tab[i][j - 1] != ' ' && tab[i][j - 1] != '1')
+		return (1);
+	if (j != len -1 && tab[i][j + 1] != ' ' && tab[i][j + 1] != '1')
+		return (1);
+	if (tab[i + 1][j] != ' ' && tab[i + 1][j] != '1')
+		return (1);
+	return (0);
+}
+
+int	ft_check_above(char **tab, int i, int j)
+{
+	int	len;
+	int p_len;
+
 	len = ft_strlen(tab[i]);
+	p_len = ft_strlen(tab[i - 1]);
 	if (len > j)
 	{
-		if (tab[i - 1][j - 1] != ' ' && tab[i - 1][j - 1] != '1')
+		if (p_len >= j && tab[i - 1][j - 1] != ' ' && tab[i - 1][j - 1] != '1')
 			return (1);
-		if (tab[i - 1][j] != ' ' && tab[i - 1][j] != '1')
+		if (p_len > j && tab[i - 1][j] != ' ' && tab[i - 1][j] != '1')
 			return (1);
-		if (tab[i - 1][j + 1] != ' ' && tab[i - 1][j + 1] != '1')
+		if (p_len > j + 1 && tab[i - 1][j + 1] != ' ' && tab[i - 1][j + 1] != '1')
 			return (1);
 	}
 	else if (len == j)
 	{
-		if (tab[i - 1][j - 1] != ' ' && tab[i - 1][j - 1] != '1')
+		if (p_len >= j && tab[i - 1][j - 1] != ' ' && tab[i - 1][j - 1] != '1')
 			return (1);
-		if (tab[i - 1][j] != ' ' && tab[i - 1][j] != '1')
+		if (p_len > j && tab[i - 1][j] != ' ' && tab[i - 1][j] != '1')
 			return (1);
 	}
 	else if (len == j - 1)
 	{
-		if (tab[i - 1][j - 1] != ' ' && tab[i - 1][j - 1] != '1')
+		if (p_len >= j && tab[i - 1][j - 1] != ' ' && tab[i - 1][j - 1] != '1')
 			return (1);
 	}
 	return (0);
@@ -99,11 +117,46 @@ int	ft_go_check_if_one_surronded_space(char **tab, int i, int j, int ver)
 	return (0);
 }
 
+void	ft_remove_newline(char **tab, int number_of_line)
+{
+	int	i;
+	int len;
+
+	i = 0;
+	while (i < number_of_line)
+	{
+		len = 0;
+		len = ft_strlen(tab[i]);
+		if (tab[i][len - 1] == '\n')
+		{
+			tab[i][len - 1] = 0;
+		}
+		i++;
+	}
+}
+
+int	ft_last_space_in_line(char *tab, int i, int j)
+{
+	int x;
+
+	x = j;
+	while (tab[x])
+	{
+		if (tab[x] == ' ')
+			x++;
+		else
+			return (0);
+	}
+	printf("i = %d .  %d\n", i, j);
+	return (1);
+}
+
 int	ft_check_map_again(char **tab, int i, int j)
 {
 	int	ver;
 
 	ver = ft_strlen_tab(tab);
+	ft_remove_newline(&tab[0], ver);
 	while (tab[i] != NULL)
 	{
 		j = 0;
@@ -113,14 +166,22 @@ int	ft_check_map_again(char **tab, int i, int j)
 		{
 			if (tab[i][j] == ' ')
 			{
-				if (ft_go_check_if_one_surronded_space(tab, i, j, ver))
+				if (ft_last_space_in_line(tab[i], i, j))
+					j = j;
+				else if (ft_go_check_if_one_surronded_space(tab, i, j, ver))
+				{
+					printf("here is the problem 4\n");
 					return (ft_error(7));
+				}
 			}
 			j++;
 		}
 		i++;
 	}
 	if (ft_check_if_sides_suronded_by_one(tab, 0, ver))
-		return (ft_error(7));
+	{
+		printf("here is the problem 5\n");
+			return (ft_error(7));
+	}
 	return (0);
 }
